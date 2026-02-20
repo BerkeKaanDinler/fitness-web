@@ -4,6 +4,8 @@ Ultimate fitness web deneyimi: bolgesel antrenmanlar, hazir programlar, teknik m
 
 Kurucu: **Berke Kaan Dinler**
 
+![CI](https://github.com/BerkeKaanDinler/fitness-web/actions/workflows/ci.yml/badge.svg)
+
 ## Canli Link
 
 - https://bkd-fitness-v2.vercel.app
@@ -36,13 +38,18 @@ Kurucu: **Berke Kaan Dinler**
 
 ```text
 .
-├─ index.html
-├─ styles.css
-├─ script.js
-├─ sw.js
-├─ manifest.webmanifest
-├─ icon.svg
-└─ media/
+|- index.html
+|- styles.css
+|- script.js
+|- sw.js
+|- manifest.webmanifest
+|- icon.svg
+|- media/
+|- scripts/
+|  `- ci-checks.mjs
+`- .github/
+   `- workflows/
+      `- ci.yml
 ```
 
 ## Lokal Calistirma
@@ -71,9 +78,17 @@ npx vercel --prod
 - Token paylasildiysa hemen revoke et ve yenisini olustur.
 - `.vercel` klasoru `.gitignore` ile disarida tutulur.
 
+## CI (GitHub Actions)
+
+- Her `push` ve `pull_request` durumunda otomatik calisir.
+- Kontroller:
+  - `script.js` ve `sw.js` syntax dogrulamasi
+  - `index.html` icindeki lokal dosya referanslarinin varlik kontrolu
+  - `index.html` ile `sw.js` asset versiyon uyumu kontrolu
+  - Olasi Vercel token sizintisi taramasi (`vcp_...`)
+
 ## Yol Haritasi (Opsiyonel)
 
 - Admin panel ile program/hareket yonetimi
 - Uye girisi ve cloud tabanli veri senkronizasyonu
 - Ilerleme grafikleri ve haftalik raporlama
-
