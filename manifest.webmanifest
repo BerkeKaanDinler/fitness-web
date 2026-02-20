@@ -1,0 +1,19 @@
+{
+  "name": "BKD Fitness Lab",
+  "short_name": "BKD Fitness",
+  "description": "Ultimate fitness platformu: bolgesel antrenmanlar, hazir programlar, hesaplayicilar ve takip sistemi.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f2eb",
+  "theme_color": "#161514",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
