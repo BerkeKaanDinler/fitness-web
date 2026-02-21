@@ -16,12 +16,15 @@ Kurucu: **Berke Kaan Dinler**
 - Hazir programlar (Alpha, Titan, Cut & Core, Hybrid)
 - Hedefe gore akilli program onerisi
 - Gunluk Komuta Merkezi
+- Uyelik/giris sistemi (local oturum)
+- Admin panelinden ozel program ekleme/silme
 - Egzersiz kutuphanesi (arama, filtreleme, favoriler, form videosu linkleri)
 - Hizli seans uretici (30/45/60 dk, adim takibi)
 - Kalori/makro hesaplayici
 - 1RM ve yuzde tablo hesaplayici
 - Su ihtiyaci hesaplayici
 - Haftalik takip paneli + dinlenme zamanlayici
+- Haftalik otomatik analiz grafikleri (kilo, antrenman suresi, adim)
 - Veri export/import (JSON)
 - Medya galerisi ve YouTube teknik video bolumu
 - PWA (install edilebilir) + service worker cache
@@ -45,6 +48,7 @@ Kurucu: **Berke Kaan Dinler**
 |- manifest.webmanifest
 |- icon.svg
 |- media/
+|- DOMAIN_SETUP.md
 |- scripts/
 |  `- ci-checks.mjs
 `- .github/
@@ -71,6 +75,12 @@ Tarayici:
 cd "C:\Users\berke\Desktop\web site"
 npx vercel --prod
 ```
+
+## Ozel Domain
+
+`fitness.berkekaandinler.com` kurulum adimlari icin:
+
+- `DOMAIN_SETUP.md`
 
 ## Guvenlik Notu
 

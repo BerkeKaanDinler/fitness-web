@@ -1,10 +1,10 @@
-const CACHE_NAME = "bkd-fitness-v6";
+const CACHE_NAME = "bkd-fitness-v7";
 
 const CORE_ASSETS = [
   "/",
   "/index.html",
-  "/styles.css?v=6",
-  "/script.js?v=6",
+  "/styles.css?v=7",
+  "/script.js?v=7",
   "/manifest.webmanifest",
   "/icon.svg",
   "/media/3837743.jpg",

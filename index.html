@@ -24,7 +24,7 @@
       rel="stylesheet"
     />
     <link rel="manifest" href="manifest.webmanifest" />
-    <link rel="stylesheet" href="styles.css?v=6" />
+    <link rel="stylesheet" href="styles.css?v=7" />
   </head>
   <body>
     <div class="scroll-progress" id="scrollProgress"></div>
@@ -33,17 +33,25 @@
       <a class="brand" href="#home">BKD FITNESS LAB</a>
       <nav class="topnav">
         <a href="#komuta">Komuta</a>
+        <a href="#uyelik">Uyelik</a>
         <a href="#bolgesel">Bolgesel Antrenman</a>
         <a href="#media">Foto + Video</a>
         <a href="#programlar">Hazir Programlar</a>
+        <a href="#admin">Admin Paneli</a>
         <a href="#planlayici">Planlayici</a>
         <a href="#hesaplayicilar">Hesaplayicilar</a>
         <a href="#kutuphane">Kutuphane</a>
         <a href="#beslenme">Beslenme</a>
         <a href="#takip">Takip Paneli</a>
+        <a href="#analiz">Analiz</a>
         <a href="#sss">SSS</a>
+        <a href="#domain">Domain</a>
       </nav>
-      <a class="small-cta" href="#programlar">Hemen Basla</a>
+      <div class="topbar-actions">
+        <button id="openAuthBtn" class="small-cta small-cta-ghost" type="button">Uye Girisi</button>
+        <a class="small-cta" href="#programlar">Hemen Basla</a>
+        <span id="authChip" class="auth-chip hidden">Misafir</span>
+      </div>
     </header>
 
     <main id="home">
@@ -134,6 +142,50 @@
             </div>
             <ul id="sessionPlanList" class="session-plan-list"></ul>
             <p id="sessionProgress" class="command-text">Plan olusturup adimlari isaretle.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="uyelik" class="section auth reveal">
+        <div class="section-head">
+          <p class="eyebrow">UYELIK VE GIRIS</p>
+          <h2>Hesabini Ac, Ilerlemeni Sahiplen</h2>
+          <p>
+            Uye ol, hesabina giris yap, rolune gore panelini otomatik kullan.
+            Ilk kayit olan hesap admin yetkisi alir.
+          </p>
+        </div>
+        <div class="auth-grid">
+          <article class="auth-card">
+            <h3>Yeni Hesap Olustur</h3>
+            <div class="auth-form">
+              <label>Ad Soyad <input id="registerNameInput" type="text" placeholder="Berke Kaan Dinler" /></label>
+              <label>E-posta <input id="registerEmailInput" type="email" placeholder="ornek@mail.com" /></label>
+              <label>Sifre <input id="registerPasswordInput" type="password" placeholder="En az 6 karakter" /></label>
+              <label>Admin Kodu (Opsiyonel) <input id="registerAdminCodeInput" type="text" placeholder="Yalnizca yoneticiler icin" /></label>
+              <button id="registerBtn" class="btn btn-primary" type="button">Hesap Olustur</button>
+            </div>
+          </article>
+          <article class="auth-card">
+            <h3>Giris Yap</h3>
+            <div class="auth-form">
+              <label>E-posta <input id="loginEmailInput" type="email" placeholder="ornek@mail.com" /></label>
+              <label>Sifre <input id="loginPasswordInput" type="password" placeholder="Sifreni gir" /></label>
+              <button id="loginBtn" class="btn btn-primary" type="button">Giris Yap</button>
+              <p class="auth-note">
+                Guvenlik notu: Bu surumde uyelik verileri cihazinda saklanir.
+              </p>
+            </div>
+          </article>
+          <article class="auth-card auth-session-card">
+            <h3>Aktif Oturum</h3>
+            <p id="authStatusText" class="auth-status">Misafir modundasin.</p>
+            <p id="authWelcomeText" class="auth-welcome">Hesabina giris yaptiginda burada gorunecek.</p>
+            <p id="authRoleText" class="auth-role">Rol: Misafir</p>
+            <div class="auth-actions">
+              <button id="logoutBtn" class="btn btn-ghost hidden" type="button">Cikis Yap</button>
+              <a class="btn btn-ghost" href="#admin">Admin Paneline Git</a>
+            </div>
           </article>
         </div>
       </section>
@@ -410,7 +462,7 @@
           </p>
         </div>
 
-        <div class="program-grid">
+        <div id="programGrid" class="program-grid">
           <article class="program-card reveal" data-program="alpha">
             <p class="program-tag">Baslangic</p>
             <h3>Alpha 3 Gun</h3>
@@ -497,6 +549,46 @@
                 yuklenme + 1 hafta hafifletme dongusu uygula.
               </p>
             </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="admin" class="section admin-panel reveal">
+        <div class="section-head">
+          <p class="eyebrow">ADMIN PANELI</p>
+          <h2>Program Ekle, Duzenle, Yonet</h2>
+          <p>
+            Bu panelde yeni hazir programlar ekleyebilir ve yayinlanan ozel
+            programlarini yonetebilirsin.
+          </p>
+        </div>
+        <p id="adminAccessInfo" class="admin-access-info">
+          Bu bolum yalnizca admin rolunde aktif olur.
+        </p>
+        <div id="adminPanelInner" class="admin-grid hidden">
+          <article class="admin-card">
+            <h3>Yeni Program Ekle</h3>
+            <div class="admin-form">
+              <label>Program Adi <input id="adminProgramTitleInput" type="text" placeholder="Pro X 5 Gun" /></label>
+              <label>Etiket <input id="adminProgramTagInput" type="text" placeholder="Performans" /></label>
+              <label>
+                Hedef
+                <select id="adminProgramGoalInput">
+                  <option value="kas">Kas kazanmak</option>
+                  <option value="yag">Yag yakmak</option>
+                  <option value="guc">Guclenmek</option>
+                  <option value="atletik">Atletik performans</option>
+                </select>
+              </label>
+              <label>Aciklama <textarea id="adminProgramDescInput" rows="3" placeholder="Programin kisa aciklamasi"></textarea></label>
+              <label>Gunler (her satira bir gun) <textarea id="adminProgramDaysInput" rows="6" placeholder="Pazartesi: Upper&#10;Sali: Lower"></textarea></label>
+              <label>Detay Notu <textarea id="adminProgramDetailInput" rows="4" placeholder="Ilerleme ve toparlanma notlari"></textarea></label>
+              <button id="adminAddProgramBtn" class="btn btn-primary" type="button">Programi Yayinla</button>
+            </div>
+          </article>
+          <article class="admin-card">
+            <h3>Yayinlanan Ozel Programlar</h3>
+            <ul id="adminProgramList" class="admin-program-list"></ul>
           </article>
         </div>
       </section>
@@ -763,6 +855,50 @@
         </div>
       </section>
 
+      <section id="analiz" class="section analytics reveal">
+        <div class="section-head">
+          <p class="eyebrow">HAFTALIK ANALIZ</p>
+          <h2>Ilerleme Grafik Paneli</h2>
+          <p>
+            Haftalik agirlik, antrenman suresi ve adim verilerini girerek
+            otomatik grafikten durumunu takip et.
+          </p>
+        </div>
+        <div class="analytics-grid">
+          <article class="analytics-card">
+            <h3>Gunluk Veri Girisi</h3>
+            <div class="analytics-form">
+              <label>
+                Gun
+                <select id="metricDaySelect">
+                  <option value="pzt">Pazartesi</option>
+                  <option value="sali">Sali</option>
+                  <option value="cars">Carsamba</option>
+                  <option value="pers">Persembe</option>
+                  <option value="cuma">Cuma</option>
+                  <option value="cts">Cumartesi</option>
+                  <option value="pazar">Pazar</option>
+                </select>
+              </label>
+              <label>Kilo (kg) <input id="metricWeightInput" type="number" min="30" max="250" step="0.1" placeholder="78.5" /></label>
+              <label>Antrenman Suresi (dk) <input id="metricMinutesInput" type="number" min="0" max="300" step="1" placeholder="60" /></label>
+              <label>Adim <input id="metricStepsInput" type="number" min="0" max="50000" step="100" placeholder="8500" /></label>
+              <div class="analytics-actions">
+                <button id="saveMetricBtn" class="btn btn-primary" type="button">Kaydet ve Grafik Guncelle</button>
+                <button id="resetMetricWeekBtn" class="btn btn-ghost" type="button">Haftalik Veriyi Sifirla</button>
+              </div>
+              <p id="weeklySummaryOutput" class="analytics-summary">Haftalik ozet burada gorunecek.</p>
+            </div>
+          </article>
+          <article class="analytics-card">
+            <h3>Otomatik Haftalik Grafik</h3>
+            <div class="chart-wrap">
+              <canvas id="weeklyChartCanvas" height="280"></canvas>
+            </div>
+          </article>
+        </div>
+      </section>
+
       <section id="sss" class="section faq reveal">
         <div class="section-head">
           <p class="eyebrow">SIK SORULANLAR</p>
@@ -809,6 +945,26 @@
           surdurulebilir disiplin."
         </p>
       </section>
+
+      <section id="domain" class="section domain reveal">
+        <div class="section-head">
+          <p class="eyebrow">OZEL DOMAIN</p>
+          <h2>fitness.berkekaandinler.com Kurulum Rehberi</h2>
+          <p>
+            Vercel panelinden domain ekleyip DNS kayitlarini tamamladiginda
+            site bu adresten de calisir.
+          </p>
+        </div>
+        <div class="domain-card">
+          <p><strong>Hedef domain:</strong> fitness.berkekaandinler.com</p>
+          <ol>
+            <li>Vercel -> Project -> Settings -> Domains -> Add domain</li>
+            <li>`fitness.berkekaandinler.com` adresini ekle</li>
+            <li>DNS tarafinda CNAME kaydini `cname.vercel-dns.com` noktasina yonlendir</li>
+            <li>SSL aktif olduktan sonra domaini primary yap</li>
+          </ol>
+        </div>
+      </section>
     </main>
 
     <footer class="footer">
@@ -818,13 +974,14 @@
     <button id="backToTop" class="back-to-top" type="button" aria-label="Yukari cik">Yukari</button>
     <nav class="mobile-dock" aria-label="Mobil hizli menusu">
       <a href="#komuta">Komuta</a>
+      <a href="#uyelik">Uyelik</a>
       <a href="#programlar">Program</a>
       <a href="#takip">Takip</a>
-      <a href="#hesaplayicilar">Araclar</a>
+      <a href="#analiz">Analiz</a>
     </nav>
     <div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
-
-    <script src="script.js?v=6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="script.js?v=7"></script>
   </body>
 </html>
 

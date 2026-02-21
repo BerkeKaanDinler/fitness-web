@@ -3,6 +3,10 @@ const trackerStorageKey = "bkd_weekly_tracker_v1";
 const mealPlanStorageKey = "bkd_meal_plan_v1";
 const favoritesStorageKey = "bkd_favorites_v1";
 const sessionPlanStorageKey = "bkd_session_plan_v1";
+const authUsersStorageKey = "bkd_auth_users_v1";
+const authSessionStorageKey = "bkd_auth_session_v1";
+const customProgramsStorageKey = "bkd_custom_programs_v1";
+const weeklyMetricsStorageKey = "bkd_weekly_metrics_v1";
 
 function byId(id) {
   return document.getElementById(id);
@@ -50,19 +54,34 @@ if (filterButtons.length && workoutPanels.length) {
   });
 }
 
-const detailButtons = document.querySelectorAll(".toggle-detail");
-detailButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const card = button.closest(".program-card");
-    const isOpen = card.classList.toggle("open");
-    button.textContent = isOpen ? "Detayi Kapat" : "Detayi Gor";
-  });
-});
-
 const recommendationText = byId("recommendation");
 const goalSelect = byId("goalSelect");
 const recommendButton = byId("recommendBtn");
-const programCards = document.querySelectorAll(".program-card");
+const programGrid = byId("programGrid");
+
+function getProgramCards() {
+  if (programGrid) {
+    return [...programGrid.querySelectorAll(".program-card")];
+  }
+  return [...document.querySelectorAll(".program-card")];
+}
+
+if (programGrid) {
+  programGrid.addEventListener("click", (event) => {
+    const toggleButton = event.target.closest(".toggle-detail");
+    if (!toggleButton) {
+      return;
+    }
+
+    const card = toggleButton.closest(".program-card");
+    if (!card) {
+      return;
+    }
+
+    const isOpen = card.classList.toggle("open");
+    toggleButton.textContent = isOpen ? "Detayi Kapat" : "Detayi Gor";
+  });
+}
 
 const recommendations = {
   kas: {
@@ -83,8 +102,521 @@ const recommendations = {
   },
 };
 
+const dayOrder = ["pzt", "sali", "cars", "pers", "cuma", "cts", "pazar"];
+const dayLabelMap = {
+  pzt: "Pazartesi",
+  sali: "Sali",
+  cars: "Carsamba",
+  pers: "Persembe",
+  cuma: "Cuma",
+  cts: "Cumartesi",
+  pazar: "Pazar",
+};
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function normalizeEmail(email) {
+  return String(email ?? "").trim().toLowerCase();
+}
+
+function hashPassword(rawPassword) {
+  const text = String(rawPassword ?? "");
+  let hash = 2166136261;
+  for (let index = 0; index < text.length; index += 1) {
+    hash ^= text.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+  return `h_${(hash >>> 0).toString(16)}`;
+}
+
+function slugify(text) {
+  return String(text ?? "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .slice(0, 40);
+}
+
+function getWeekStartIso(today = new Date()) {
+  const date = new Date(today);
+  const normalizedDay = (date.getDay() + 6) % 7;
+  date.setHours(0, 0, 0, 0);
+  date.setDate(date.getDate() - normalizedDay);
+  return date.toISOString().slice(0, 10);
+}
+
+function createEmptyWeeklyMetrics(weekStart) {
+  const entries = {};
+  dayOrder.forEach((dayKey) => {
+    entries[dayKey] = {
+      weight: null,
+      minutes: 0,
+      steps: 0,
+    };
+  });
+
+  return {
+    weekStart,
+    entries,
+  };
+}
+
+function normalizeProgram(rawProgram, index = 0) {
+  const title = String(rawProgram?.title ?? "").trim();
+  const desc = String(rawProgram?.desc ?? "").trim();
+  const detail = String(rawProgram?.detail ?? "").trim();
+  const tag = String(rawProgram?.tag ?? "Admin Programi").trim();
+  const goal = ["kas", "yag", "guc", "atletik"].includes(rawProgram?.goal)
+    ? rawProgram.goal
+    : "kas";
+  const id = String(rawProgram?.id ?? `custom-${Date.now()}-${index}`);
+  const keySeed = slugify(rawProgram?.key || title || id) || id;
+  const key = `custom-${keySeed}`;
+  const days = Array.isArray(rawProgram?.days)
+    ? rawProgram.days
+        .map((item) => String(item ?? "").trim())
+        .filter(Boolean)
+        .slice(0, 7)
+    : [];
+
+  if (!title || !desc || !days.length) {
+    return null;
+  }
+
+  return {
+    id,
+    key,
+    title,
+    tag,
+    goal,
+    desc,
+    detail: detail || "Progressive overload ve toparlanma dengesini takip et.",
+    days,
+    createdAt: rawProgram?.createdAt ?? new Date().toISOString(),
+    createdBy: rawProgram?.createdBy ?? "admin",
+  };
+}
+
+function loadCustomPrograms() {
+  try {
+    const parsed = safeParseJson(localStorage.getItem(customProgramsStorageKey) ?? "[]");
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed
+      .map((program, index) => normalizeProgram(program, index))
+      .filter((program) => Boolean(program));
+  } catch {
+    return [];
+  }
+}
+
+function saveCustomPrograms() {
+  try {
+    localStorage.setItem(customProgramsStorageKey, JSON.stringify(customPrograms));
+  } catch {
+    // Ignore storage errors to keep admin panel usable.
+  }
+}
+
+let customPrograms = loadCustomPrograms();
+
+function renderCustomPrograms() {
+  if (!programGrid) {
+    return;
+  }
+
+  programGrid.querySelectorAll(".program-card.custom-program").forEach((card) => card.remove());
+
+  customPrograms.forEach((program) => {
+    const card = document.createElement("article");
+    card.className = "program-card custom-program reveal in-view";
+    card.dataset.program = program.key;
+    card.innerHTML = `
+      <p class="program-tag">Admin Eklentisi</p>
+      <h3>${escapeHtml(program.title)}</h3>
+      <p class="program-desc">${escapeHtml(program.desc)}</p>
+      <ul>
+        ${program.days.map((day) => `<li>${escapeHtml(day)}</li>`).join("")}
+      </ul>
+      <button class="toggle-detail" type="button">Detayi Gor</button>
+      <div class="program-detail">
+        <p>${escapeHtml(program.detail)}</p>
+      </div>
+    `;
+    programGrid.appendChild(card);
+  });
+}
+
+function loadAuthUsers() {
+  try {
+    const parsed = safeParseJson(localStorage.getItem(authUsersStorageKey) ?? "[]");
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+    return parsed.filter((user) => user && typeof user.email === "string");
+  } catch {
+    return [];
+  }
+}
+
+function saveAuthUsers(users) {
+  try {
+    localStorage.setItem(authUsersStorageKey, JSON.stringify(users));
+  } catch {
+    // Ignore storage errors to keep UI alive.
+  }
+}
+
+function loadAuthSession() {
+  try {
+    const parsed = safeParseJson(localStorage.getItem(authSessionStorageKey) ?? "null");
+    if (!parsed || typeof parsed.userId !== "string") {
+      return null;
+    }
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function saveAuthSession(session) {
+  try {
+    if (!session) {
+      localStorage.removeItem(authSessionStorageKey);
+      return;
+    }
+    localStorage.setItem(authSessionStorageKey, JSON.stringify(session));
+  } catch {
+    // Ignore storage errors.
+  }
+}
+
+const adminInviteCode = "BKD-ADMIN-2026";
+const founderAdminEmails = new Set(["berke@bkd.fit", "fitness@berkekaandinler.com"]);
+
+const openAuthBtn = byId("openAuthBtn");
+const authChip = byId("authChip");
+const authStatusText = byId("authStatusText");
+const authWelcomeText = byId("authWelcomeText");
+const authRoleText = byId("authRoleText");
+const logoutBtn = byId("logoutBtn");
+const registerNameInput = byId("registerNameInput");
+const registerEmailInput = byId("registerEmailInput");
+const registerPasswordInput = byId("registerPasswordInput");
+const registerAdminCodeInput = byId("registerAdminCodeInput");
+const registerBtn = byId("registerBtn");
+const loginEmailInput = byId("loginEmailInput");
+const loginPasswordInput = byId("loginPasswordInput");
+const loginBtn = byId("loginBtn");
+
+const adminPanelSection = byId("admin");
+const adminAccessInfo = byId("adminAccessInfo");
+const adminPanelInner = byId("adminPanelInner");
+const adminProgramTitleInput = byId("adminProgramTitleInput");
+const adminProgramTagInput = byId("adminProgramTagInput");
+const adminProgramGoalInput = byId("adminProgramGoalInput");
+const adminProgramDescInput = byId("adminProgramDescInput");
+const adminProgramDaysInput = byId("adminProgramDaysInput");
+const adminProgramDetailInput = byId("adminProgramDetailInput");
+const adminAddProgramBtn = byId("adminAddProgramBtn");
+const adminProgramList = byId("adminProgramList");
+
+let authUsers = loadAuthUsers();
+let authSession = loadAuthSession();
+
+function getCurrentUser() {
+  if (!authSession) {
+    return null;
+  }
+  return authUsers.find((user) => user.id === authSession.userId) ?? null;
+}
+
+function isCurrentUserAdmin() {
+  const user = getCurrentUser();
+  return Boolean(user && user.role === "admin");
+}
+
+function renderAdminProgramList() {
+  if (!adminProgramList) {
+    return;
+  }
+
+  if (!customPrograms.length) {
+    adminProgramList.innerHTML =
+      '<li class="admin-program-empty">Henuz admin panelinden eklenmis ozel program yok.</li>';
+    return;
+  }
+
+  adminProgramList.innerHTML = customPrograms
+    .map((program) => {
+      const daySummary = program.days.join(" | ");
+      return `
+        <li class="admin-program-item">
+          <div>
+            <p class="admin-program-title">${escapeHtml(program.title)}</p>
+            <p class="admin-program-meta">${escapeHtml(daySummary)}</p>
+          </div>
+          <button class="btn btn-ghost admin-delete-program-btn" type="button" data-program-id="${escapeHtml(
+            program.id
+          )}">Sil</button>
+        </li>
+      `;
+    })
+    .join("");
+}
+
+function updateAuthPresentation() {
+  const user = getCurrentUser();
+  const isAdmin = Boolean(user && user.role === "admin");
+
+  if (authStatusText) {
+    authStatusText.textContent = user
+      ? "Oturum aktif."
+      : "Misafir modundasin.";
+  }
+
+  if (authWelcomeText) {
+    authWelcomeText.textContent = user
+      ? `${user.name} olarak giris yaptin.`
+      : "Hesabina giris yaptiginda burada gorunecek.";
+  }
+
+  if (authRoleText) {
+    authRoleText.textContent = `Rol: ${isAdmin ? "Admin" : user ? "Uye" : "Misafir"}`;
+  }
+
+  if (openAuthBtn) {
+    openAuthBtn.textContent = user ? "Hesabim" : "Uye Girisi";
+  }
+
+  if (authChip) {
+    if (user) {
+      authChip.classList.remove("hidden");
+      authChip.textContent = `${user.name.split(" ")[0]} | ${isAdmin ? "Admin" : "Uye"}`;
+    } else {
+      authChip.classList.add("hidden");
+      authChip.textContent = "Misafir";
+    }
+  }
+
+  if (logoutBtn) {
+    logoutBtn.classList.toggle("hidden", !user);
+  }
+
+  if (adminPanelSection && adminAccessInfo && adminPanelInner) {
+    adminAccessInfo.textContent = isAdmin
+      ? "Admin erisimi aktif. Program olusturma ve yonetim acik."
+      : "Bu bolum yalnizca admin rolunde aktif olur.";
+    adminPanelInner.classList.toggle("hidden", !isAdmin);
+  }
+
+  renderAdminProgramList();
+}
+
+function registerUser() {
+  const name = String(registerNameInput?.value ?? "").trim();
+  const email = normalizeEmail(registerEmailInput?.value ?? "");
+  const password = String(registerPasswordInput?.value ?? "");
+  const adminCode = String(registerAdminCodeInput?.value ?? "").trim();
+
+  if (name.length < 2 || !email.includes("@") || password.length < 6) {
+    showToast("Kayit icin ad, e-posta ve en az 6 karakter sifre gir.");
+    return;
+  }
+
+  if (authUsers.some((user) => user.email === email)) {
+    showToast("Bu e-posta ile zaten bir hesap var.");
+    return;
+  }
+
+  const role =
+    authUsers.length === 0 ||
+    adminCode === adminInviteCode ||
+    founderAdminEmails.has(email)
+      ? "admin"
+      : "member";
+
+  const newUser = {
+    id: `u-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
+    name,
+    email,
+    passwordHash: hashPassword(password),
+    role,
+    createdAt: new Date().toISOString(),
+  };
+
+  authUsers = [...authUsers, newUser];
+  saveAuthUsers(authUsers);
+  authSession = { userId: newUser.id, createdAt: new Date().toISOString() };
+  saveAuthSession(authSession);
+
+  if (registerNameInput) registerNameInput.value = "";
+  if (registerEmailInput) registerEmailInput.value = "";
+  if (registerPasswordInput) registerPasswordInput.value = "";
+  if (registerAdminCodeInput) registerAdminCodeInput.value = "";
+
+  updateAuthPresentation();
+  showToast(role === "admin" ? "Admin hesabi acildi." : "Uyelik olusturuldu.");
+}
+
+function loginUser() {
+  const email = normalizeEmail(loginEmailInput?.value ?? "");
+  const password = String(loginPasswordInput?.value ?? "");
+
+  if (!email || !password) {
+    showToast("Giris icin e-posta ve sifre gir.");
+    return;
+  }
+
+  const user = authUsers.find(
+    (candidate) =>
+      candidate.email === email && candidate.passwordHash === hashPassword(password)
+  );
+
+  if (!user) {
+    showToast("Giris bilgileri hatali.");
+    return;
+  }
+
+  authSession = { userId: user.id, createdAt: new Date().toISOString() };
+  saveAuthSession(authSession);
+
+  if (loginEmailInput) loginEmailInput.value = "";
+  if (loginPasswordInput) loginPasswordInput.value = "";
+
+  updateAuthPresentation();
+  showToast("Giris basarili.");
+}
+
+function logoutUser() {
+  authSession = null;
+  saveAuthSession(null);
+  updateAuthPresentation();
+  showToast("Oturum kapatildi.");
+}
+
+if (registerBtn) {
+  registerBtn.addEventListener("click", registerUser);
+}
+
+if (loginBtn) {
+  loginBtn.addEventListener("click", loginUser);
+}
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", logoutUser);
+}
+
+if (openAuthBtn) {
+  openAuthBtn.addEventListener("click", () => {
+    const authSection = byId("uyelik");
+    if (!authSection) {
+      return;
+    }
+    authSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
+
+if (adminAddProgramBtn) {
+  adminAddProgramBtn.addEventListener("click", () => {
+    if (!isCurrentUserAdmin()) {
+      showToast("Program eklemek icin admin girisi yap.");
+      return;
+    }
+
+    const title = String(adminProgramTitleInput?.value ?? "").trim();
+    const tag = String(adminProgramTagInput?.value ?? "").trim() || "Admin Programi";
+    const goal = String(adminProgramGoalInput?.value ?? "kas");
+    const desc = String(adminProgramDescInput?.value ?? "").trim();
+    const detail = String(adminProgramDetailInput?.value ?? "").trim();
+    const days = String(adminProgramDaysInput?.value ?? "")
+      .split(/\n|,/g)
+      .map((item) => item.trim())
+      .filter(Boolean)
+      .slice(0, 7);
+
+    const normalized = normalizeProgram({
+      id: `custom-${Date.now()}`,
+      key: slugify(title),
+      title,
+      tag,
+      goal,
+      desc,
+      detail,
+      days,
+      createdBy: getCurrentUser()?.email ?? "admin",
+      createdAt: new Date().toISOString(),
+    });
+
+    if (!normalized) {
+      showToast("Program adi, aciklama ve gunleri doldur.");
+      return;
+    }
+
+    customPrograms = [normalized, ...customPrograms];
+    saveCustomPrograms();
+    renderCustomPrograms();
+    renderAdminProgramList();
+    applyRecommendationByGoal(goalSelect?.value ?? "kas");
+    updateCommandCenter();
+
+    if (adminProgramTitleInput) adminProgramTitleInput.value = "";
+    if (adminProgramTagInput) adminProgramTagInput.value = "";
+    if (adminProgramDescInput) adminProgramDescInput.value = "";
+    if (adminProgramDetailInput) adminProgramDetailInput.value = "";
+    if (adminProgramDaysInput) adminProgramDaysInput.value = "";
+
+    showToast("Yeni program yayinlandi.");
+  });
+}
+
+if (adminProgramList) {
+  adminProgramList.addEventListener("click", (event) => {
+    const deleteButton = event.target.closest(".admin-delete-program-btn");
+    if (!deleteButton) {
+      return;
+    }
+
+    if (!isCurrentUserAdmin()) {
+      showToast("Bu islem icin admin girisi gerekli.");
+      return;
+    }
+
+    const programId = deleteButton.dataset.programId;
+    if (!programId) {
+      return;
+    }
+
+    customPrograms = customPrograms.filter((program) => program.id !== programId);
+    saveCustomPrograms();
+    renderCustomPrograms();
+    renderAdminProgramList();
+    applyRecommendationByGoal(goalSelect?.value ?? "kas");
+    updateCommandCenter();
+    showToast("Program kaldirildi.");
+  });
+}
+
 function applyRecommendationByGoal(goalKey) {
-  const data = recommendations[goalKey];
+  const customMatch = customPrograms.find((program) => program.goal === goalKey);
+  const data = customMatch
+    ? {
+        key: customMatch.key,
+        text: `Oneri: ${customMatch.title}. Admin panelinde hedefe gore eklenen en guncel program.`,
+      }
+    : recommendations[goalKey];
+
   if (!data) {
     return null;
   }
@@ -93,7 +625,7 @@ function applyRecommendationByGoal(goalKey) {
     recommendationText.textContent = data.text;
   }
 
-  programCards.forEach((card) => {
+  getProgramCards().forEach((card) => {
     card.classList.toggle("recommended", card.dataset.program === data.key);
   });
 
@@ -180,7 +712,9 @@ function updateCommandCenter() {
   }
 
   const selectedGoal = goalSelect?.value ?? "kas";
-  const recommendation = recommendations[selectedGoal];
+  const recommendation =
+    customPrograms.find((program) => program.goal === selectedGoal) ??
+    recommendations[selectedGoal];
   if (todayProgramOutput && recommendation) {
     todayProgramOutput.textContent = `Bugun icin ana plan: ${getProgramTitleByKey(
       recommendation.key
@@ -1035,6 +1569,250 @@ if (trackerReset) {
 
 loadTrackerState();
 
+const metricDaySelect = byId("metricDaySelect");
+const metricWeightInput = byId("metricWeightInput");
+const metricMinutesInput = byId("metricMinutesInput");
+const metricStepsInput = byId("metricStepsInput");
+const saveMetricBtn = byId("saveMetricBtn");
+const resetMetricWeekBtn = byId("resetMetricWeekBtn");
+const weeklySummaryOutput = byId("weeklySummaryOutput");
+const weeklyChartCanvas = byId("weeklyChartCanvas");
+
+let weeklyMetricsState = loadWeeklyMetricsState();
+let weeklyChart = null;
+
+function loadWeeklyMetricsState() {
+  const currentWeekStart = getWeekStartIso();
+  try {
+    const parsed = safeParseJson(localStorage.getItem(weeklyMetricsStorageKey) ?? "null");
+    if (!parsed || typeof parsed !== "object") {
+      return createEmptyWeeklyMetrics(currentWeekStart);
+    }
+
+    if (parsed.weekStart !== currentWeekStart || !parsed.entries) {
+      return createEmptyWeeklyMetrics(currentWeekStart);
+    }
+
+    const normalized = createEmptyWeeklyMetrics(currentWeekStart);
+    dayOrder.forEach((dayKey) => {
+      const item = parsed.entries?.[dayKey];
+      if (!item) {
+        return;
+      }
+
+      const weight = Number.parseFloat(item.weight);
+      const minutes = Number.parseFloat(item.minutes);
+      const steps = Number.parseFloat(item.steps);
+
+      normalized.entries[dayKey] = {
+        weight: Number.isFinite(weight) ? weight : null,
+        minutes: Number.isFinite(minutes) ? Math.max(0, minutes) : 0,
+        steps: Number.isFinite(steps) ? Math.max(0, steps) : 0,
+      };
+    });
+
+    return normalized;
+  } catch {
+    return createEmptyWeeklyMetrics(currentWeekStart);
+  }
+}
+
+function saveWeeklyMetricsState() {
+  try {
+    localStorage.setItem(weeklyMetricsStorageKey, JSON.stringify(weeklyMetricsState));
+  } catch {
+    // Ignore storage errors.
+  }
+}
+
+function getTodayMetricKey() {
+  const index = (new Date().getDay() + 6) % 7;
+  return dayOrder[index] ?? "pzt";
+}
+
+function setMetricInputsFromSelectedDay() {
+  const selectedDay = metricDaySelect?.value;
+  if (!selectedDay || !weeklyMetricsState.entries[selectedDay]) {
+    return;
+  }
+
+  const entry = weeklyMetricsState.entries[selectedDay];
+  if (metricWeightInput) {
+    metricWeightInput.value = Number.isFinite(entry.weight) ? String(entry.weight) : "";
+  }
+  if (metricMinutesInput) {
+    metricMinutesInput.value = String(entry.minutes ?? 0);
+  }
+  if (metricStepsInput) {
+    metricStepsInput.value = String(entry.steps ?? 0);
+  }
+}
+
+function renderWeeklySummary() {
+  if (!weeklySummaryOutput) {
+    return;
+  }
+
+  const entries = dayOrder.map((dayKey) => weeklyMetricsState.entries[dayKey]);
+  const weightValues = entries
+    .map((entry) => entry.weight)
+    .filter((value) => Number.isFinite(value));
+  const minutesValues = entries.map((entry) => entry.minutes || 0);
+  const stepsValues = entries.map((entry) => entry.steps || 0);
+
+  const avgWeight = weightValues.length
+    ? (weightValues.reduce((sum, value) => sum + value, 0) / weightValues.length).toFixed(1)
+    : "-";
+  const totalMinutes = minutesValues.reduce((sum, value) => sum + value, 0);
+  const totalSteps = stepsValues.reduce((sum, value) => sum + value, 0);
+  const bestDayIndex = stepsValues.indexOf(Math.max(...stepsValues));
+  const bestDayLabel = dayOrder[bestDayIndex] ? dayLabelMap[dayOrder[bestDayIndex]] : "-";
+
+  weeklySummaryOutput.textContent = `Ort. kilo: ${avgWeight} kg | Toplam antrenman: ${totalMinutes} dk | Toplam adim: ${totalSteps} | En aktif gun: ${bestDayLabel}`;
+}
+
+function renderWeeklyChart() {
+  if (!weeklyChartCanvas) {
+    return;
+  }
+
+  if (typeof Chart === "undefined") {
+    if (weeklySummaryOutput) {
+      weeklySummaryOutput.textContent = "Grafik kutuphanesi yuklenemedi. Sayfayi yenile.";
+    }
+    return;
+  }
+
+  const labels = dayOrder.map((key) => dayLabelMap[key]);
+  const weightData = dayOrder.map((dayKey) => weeklyMetricsState.entries[dayKey].weight);
+  const minutesData = dayOrder.map((dayKey) => weeklyMetricsState.entries[dayKey].minutes || 0);
+  const stepsData = dayOrder.map((dayKey) => weeklyMetricsState.entries[dayKey].steps || 0);
+
+  const chartData = {
+    labels,
+    datasets: [
+      {
+        label: "Kilo (kg)",
+        data: weightData,
+        borderColor: "#ff5b2e",
+        backgroundColor: "rgba(255, 91, 46, 0.14)",
+        yAxisID: "y",
+        tension: 0.25,
+      },
+      {
+        label: "Antrenman (dk)",
+        data: minutesData,
+        borderColor: "#0b7a73",
+        backgroundColor: "rgba(11, 122, 115, 0.13)",
+        yAxisID: "y1",
+        tension: 0.25,
+      },
+      {
+        label: "Adim",
+        data: stepsData,
+        borderColor: "#e7b04b",
+        backgroundColor: "rgba(231, 176, 75, 0.18)",
+        yAxisID: "y2",
+        tension: 0.25,
+      },
+    ],
+  };
+
+  if (weeklyChart) {
+    weeklyChart.data = chartData;
+    weeklyChart.update();
+    return;
+  }
+
+  weeklyChart = new Chart(weeklyChartCanvas, {
+    type: "line",
+    data: chartData,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: {
+            color: "#2a2722",
+          },
+        },
+      },
+      scales: {
+        x: {
+          ticks: { color: "#3d3933" },
+          grid: { color: "rgba(80, 74, 66, 0.12)" },
+        },
+        y: {
+          position: "left",
+          ticks: { color: "#a63b1b" },
+          grid: { color: "rgba(166, 59, 27, 0.12)" },
+        },
+        y1: {
+          position: "right",
+          ticks: { color: "#125f5a" },
+          grid: { drawOnChartArea: false },
+        },
+        y2: {
+          position: "right",
+          ticks: { color: "#8d6519" },
+          grid: { drawOnChartArea: false },
+        },
+      },
+    },
+  });
+}
+
+function renderWeeklyMetricsPanel() {
+  setMetricInputsFromSelectedDay();
+  renderWeeklySummary();
+  renderWeeklyChart();
+}
+
+if (metricDaySelect) {
+  metricDaySelect.value = getTodayMetricKey();
+  metricDaySelect.addEventListener("change", () => {
+    setMetricInputsFromSelectedDay();
+  });
+}
+
+if (saveMetricBtn) {
+  saveMetricBtn.addEventListener("click", () => {
+    const dayKey = metricDaySelect?.value;
+    if (!dayKey || !weeklyMetricsState.entries[dayKey]) {
+      showToast("Gun secimi gecersiz.");
+      return;
+    }
+
+    const weight = Number.parseFloat(metricWeightInput?.value ?? "");
+    const minutes = Number.parseFloat(metricMinutesInput?.value ?? "");
+    const steps = Number.parseFloat(metricStepsInput?.value ?? "");
+
+    weeklyMetricsState.entries[dayKey] = {
+      weight: Number.isFinite(weight) ? weight : null,
+      minutes: Number.isFinite(minutes) ? Math.max(0, minutes) : 0,
+      steps: Number.isFinite(steps) ? Math.max(0, steps) : 0,
+    };
+
+    saveWeeklyMetricsState();
+    renderWeeklyMetricsPanel();
+    showToast(`${dayLabelMap[dayKey]} verisi kaydedildi.`);
+  });
+}
+
+if (resetMetricWeekBtn) {
+  resetMetricWeekBtn.addEventListener("click", () => {
+    weeklyMetricsState = createEmptyWeeklyMetrics(getWeekStartIso());
+    saveWeeklyMetricsState();
+    if (metricDaySelect) {
+      metricDaySelect.value = getTodayMetricKey();
+    }
+    renderWeeklyMetricsPanel();
+    showToast("Haftalik analiz verileri sifirlandi.");
+  });
+}
+
+renderWeeklyMetricsPanel();
+
 const restSecondsInput = byId("restSeconds");
 const timerDisplay = byId("timerDisplay");
 const timerStart = byId("timerStart");
@@ -1153,6 +1931,8 @@ if (exportDataBtn) {
       mealPlan: storedMealPlan,
       favorites: storedFavorites,
       sessionPlan: storedSessionPlan,
+      customPrograms,
+      weeklyMetrics: weeklyMetricsState,
     };
 
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
@@ -1214,6 +1994,40 @@ if (importDataInput) {
       renderSessionPlan();
     }
 
+    if (Array.isArray(payload.customPrograms)) {
+      customPrograms = payload.customPrograms
+        .map((program, index) => normalizeProgram(program, index))
+        .filter((program) => Boolean(program));
+      saveCustomPrograms();
+      renderCustomPrograms();
+      renderAdminProgramList();
+    }
+
+    if (payload.weeklyMetrics && payload.weeklyMetrics.entries) {
+      const incomingWeekStart =
+        typeof payload.weeklyMetrics.weekStart === "string"
+          ? payload.weeklyMetrics.weekStart
+          : getWeekStartIso();
+      const normalizedMetrics = createEmptyWeeklyMetrics(incomingWeekStart);
+      dayOrder.forEach((dayKey) => {
+        const item = payload.weeklyMetrics.entries?.[dayKey];
+        if (!item) {
+          return;
+        }
+        const weight = Number.parseFloat(item.weight);
+        const minutes = Number.parseFloat(item.minutes);
+        const steps = Number.parseFloat(item.steps);
+        normalizedMetrics.entries[dayKey] = {
+          weight: Number.isFinite(weight) ? weight : null,
+          minutes: Number.isFinite(minutes) ? Math.max(0, minutes) : 0,
+          steps: Number.isFinite(steps) ? Math.max(0, steps) : 0,
+        };
+      });
+      weeklyMetricsState = normalizedMetrics;
+      saveWeeklyMetricsState();
+      renderWeeklyMetricsPanel();
+    }
+
     if (payload.tracker && typeof payload.tracker === "object") {
       trackerChecks.forEach((checkbox) => {
         checkbox.checked = Boolean(payload.tracker[checkbox.dataset.id]);
@@ -1225,6 +2039,7 @@ if (importDataInput) {
     calculateCaloriesAndMacros();
     calculateOneRepMax();
     calculateWaterIntake();
+    applyRecommendationByGoal(goalSelect?.value ?? "kas");
     updateCommandCenter();
     showToast("Veri basariyla ice aktarildi.");
     importDataInput.value = "";
@@ -1238,6 +2053,12 @@ if (printPlanBtn) {
 }
 
 loadProfileState();
+renderCustomPrograms();
+if (authSession && !getCurrentUser()) {
+  authSession = null;
+  saveAuthSession(null);
+}
+updateAuthPresentation();
 if (goalSelect) {
   applyRecommendationByGoal(goalSelect.value);
 }
