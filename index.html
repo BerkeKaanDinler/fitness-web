@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="tr">
   <head>
     <meta charset="UTF-8" />
@@ -60,9 +60,9 @@
           <p class="eyebrow">KURUCU: BERKE KAAN DINLER</p>
           <h1>ULTIMATE FITNESS DENEYIMI</h1>
           <p class="hero-text">
-            Kas kazanimi, guc artisi ve yag yakimi icin en mantikli antrenman
-            sistemi: bolgesel calisma planlari, hazir haftalik programlar ve
-            hedefe gore akilli yonlendirme tek bir yerde.
+            Kas kazanimi, guc artisi ve yag yakimi icin en mantikli antrenman sistemi: bolgesel
+            calisma planlari, hazir haftalik programlar ve hedefe gore akilli yonlendirme tek bir
+            yerde.
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#bolgesel">Bolgesel Planlari Gor</a>
@@ -93,10 +93,7 @@
         <div class="section-head">
           <p class="eyebrow">GUNLUK KOMUTA MERKEZI</p>
           <h2>Bugun Ne Yapacagini Tek Ekranda Gor</h2>
-          <p>
-            Hedefin, gunun odagi, hizli aksiyonlar ve mini antrenman plani bu
-            panelde.
-          </p>
+          <p>Hedefin, gunun odagi, hizli aksiyonlar ve mini antrenman plani bu panelde.</p>
         </div>
 
         <div class="command-grid">
@@ -106,7 +103,9 @@
             <p class="command-kicker">Program Onerisi</p>
             <p id="todayProgramOutput" class="command-text">Hedefine gore otomatik secilir.</p>
             <p class="command-kicker">Takip Durumu</p>
-            <p id="todayTrackerOutput" class="command-text">Haftalik checkpoint verisi bekleniyor.</p>
+            <p id="todayTrackerOutput" class="command-text">
+              Haftalik checkpoint verisi bekleniyor.
+            </p>
           </article>
 
           <article class="command-card">
@@ -117,9 +116,7 @@
               <a class="btn btn-ghost" href="#hesaplayicilar">Hesaplayicilara Git</a>
             </div>
             <p class="command-kicker">Bugunun Odagi</p>
-            <p id="todayFocusOutput" class="command-text">
-              Otomatik odak burada gorunecek.
-            </p>
+            <p id="todayFocusOutput" class="command-text">Otomatik odak burada gorunecek.</p>
           </article>
 
           <article class="command-card command-session">
@@ -138,7 +135,9 @@
                 <option value="45" selected>45 dk</option>
                 <option value="60">60 dk</option>
               </select>
-              <button id="buildSessionBtn" class="btn btn-primary" type="button">Seans Olustur</button>
+              <button id="buildSessionBtn" class="btn btn-primary" type="button">
+                Seans Olustur
+              </button>
             </div>
             <ul id="sessionPlanList" class="session-plan-list"></ul>
             <p id="sessionProgress" class="command-text">Plan olusturup adimlari isaretle.</p>
@@ -151,36 +150,53 @@
           <p class="eyebrow">UYELIK VE GIRIS</p>
           <h2>Hesabini Ac, Ilerlemeni Sahiplen</h2>
           <p>
-            Uye ol, hesabina giris yap, rolune gore panelini otomatik kullan.
-            Ilk kayit olan hesap admin yetkisi alir.
+            Uye ol, hesabina giris yap, rolune gore panelini otomatik kullan. Ilk kayit olan hesap
+            admin yetkisi alir.
           </p>
         </div>
         <div class="auth-grid">
           <article class="auth-card">
             <h3>Yeni Hesap Olustur</h3>
             <div class="auth-form">
-              <label>Ad Soyad <input id="registerNameInput" type="text" placeholder="Berke Kaan Dinler" /></label>
-              <label>E-posta <input id="registerEmailInput" type="email" placeholder="ornek@mail.com" /></label>
-              <label>Sifre <input id="registerPasswordInput" type="password" placeholder="En az 6 karakter" /></label>
-              <label>Admin Kodu (Opsiyonel) <input id="registerAdminCodeInput" type="text" placeholder="Yalnizca yoneticiler icin" /></label>
+              <label
+                >Ad Soyad <input id="registerNameInput" type="text" placeholder="Berke Kaan Dinler"
+              /></label>
+              <label
+                >E-posta <input id="registerEmailInput" type="email" placeholder="ornek@mail.com"
+              /></label>
+              <label
+                >Sifre
+                <input id="registerPasswordInput" type="password" placeholder="En az 6 karakter"
+              /></label>
+              <label
+                >Admin Kodu (Opsiyonel)
+                <input
+                  id="registerAdminCodeInput"
+                  type="text"
+                  placeholder="Yalnizca yoneticiler icin"
+              /></label>
               <button id="registerBtn" class="btn btn-primary" type="button">Hesap Olustur</button>
             </div>
           </article>
           <article class="auth-card">
             <h3>Giris Yap</h3>
             <div class="auth-form">
-              <label>E-posta <input id="loginEmailInput" type="email" placeholder="ornek@mail.com" /></label>
-              <label>Sifre <input id="loginPasswordInput" type="password" placeholder="Sifreni gir" /></label>
+              <label
+                >E-posta <input id="loginEmailInput" type="email" placeholder="ornek@mail.com"
+              /></label>
+              <label
+                >Sifre <input id="loginPasswordInput" type="password" placeholder="Sifreni gir"
+              /></label>
               <button id="loginBtn" class="btn btn-primary" type="button">Giris Yap</button>
-              <p class="auth-note">
-                Guvenlik notu: Bu surumde uyelik verileri cihazinda saklanir.
-              </p>
+              <p class="auth-note">Guvenlik notu: Bu surumde uyelik verileri cihazinda saklanir.</p>
             </div>
           </article>
           <article class="auth-card auth-session-card">
             <h3>Aktif Oturum</h3>
             <p id="authStatusText" class="auth-status">Misafir modundasin.</p>
-            <p id="authWelcomeText" class="auth-welcome">Hesabina giris yaptiginda burada gorunecek.</p>
+            <p id="authWelcomeText" class="auth-welcome">
+              Hesabina giris yaptiginda burada gorunecek.
+            </p>
             <p id="authRoleText" class="auth-role">Rol: Misafir</p>
             <div class="auth-actions">
               <button id="logoutBtn" class="btn btn-ghost hidden" type="button">Cikis Yap</button>
@@ -194,10 +210,7 @@
         <div class="section-head reveal">
           <p class="eyebrow">BOLGEYE ODAKLAN</p>
           <h2>Bolgesel Antrenman Kutuphanesi</h2>
-          <p>
-            Her kas grubu icin net egzersiz sirasi, set/tekrar onerisi ve
-            bitiris protokolu.
-          </p>
+          <p>Her kas grubu icin net egzersiz sirasi, set/tekrar onerisi ve bitiris protokolu.</p>
         </div>
 
         <div class="muscle-filters reveal">
@@ -219,9 +232,7 @@
               <li>Cable Fly - 3x12-15</li>
               <li>Push-up Drop Set - 2 tur tukenise kadar</li>
             </ul>
-            <p class="panel-note">
-              Bitiris: 8 dakika tempo kosu + 2 dakika aktif esneme.
-            </p>
+            <p class="panel-note">Bitiris: 8 dakika tempo kosu + 2 dakika aktif esneme.</p>
           </article>
 
           <article class="workout-panel" data-muscle="sirt">
@@ -233,9 +244,7 @@
               <li>Chest Supported Row - 3x10-12</li>
               <li>Straight Arm Pulldown - 3x15</li>
             </ul>
-            <p class="panel-note">
-              Bitiris: 5 x 250m kurek ergometresi (30 sn dinlenme).
-            </p>
+            <p class="panel-note">Bitiris: 5 x 250m kurek ergometresi (30 sn dinlenme).</p>
           </article>
 
           <article class="workout-panel" data-muscle="omuz">
@@ -247,9 +256,7 @@
               <li>Rear Delt Fly - 4x15</li>
               <li>Face Pull - 3x15-20</li>
             </ul>
-            <p class="panel-note">
-              Bitiris: Farmer Carry 4 tur x 40 metre.
-            </p>
+            <p class="panel-note">Bitiris: Farmer Carry 4 tur x 40 metre.</p>
           </article>
 
           <article class="workout-panel" data-muscle="bacak">
@@ -261,9 +268,7 @@
               <li>Leg Press - 3x12</li>
               <li>Standing Calf Raise - 4x15-20</li>
             </ul>
-            <p class="panel-note">
-              Bitiris: 10 dakika incline yuruyus + kalca mobilitesi.
-            </p>
+            <p class="panel-note">Bitiris: 10 dakika incline yuruyus + kalca mobilitesi.</p>
           </article>
 
           <article class="workout-panel" data-muscle="kol">
@@ -275,9 +280,7 @@
               <li>Incline Dumbbell Curl - 3x12</li>
               <li>Rope Pushdown + Hammer Curl Superset - 3x15</li>
             </ul>
-            <p class="panel-note">
-              Bitiris: Bilek ve dirsek stabilite calismasi 6 dakika.
-            </p>
+            <p class="panel-note">Bitiris: Bilek ve dirsek stabilite calismasi 6 dakika.</p>
           </article>
 
           <article class="workout-panel" data-muscle="core">
@@ -289,9 +292,7 @@
               <li>Plank - 3x60 sn</li>
               <li>Pallof Press - 3x12 (her taraf)</li>
             </ul>
-            <p class="panel-note">
-              Bitiris: 12 dakika dusuk tempo kardiyo + nefes protokolu.
-            </p>
+            <p class="panel-note">Bitiris: 12 dakika dusuk tempo kardiyo + nefes protokolu.</p>
           </article>
         </div>
       </section>
@@ -300,10 +301,7 @@
         <div class="section-head reveal">
           <p class="eyebrow">MEDYA KUTUPHANESI</p>
           <h2>Hareket Fotograflari ve Teknik Videolar</h2>
-          <p>
-            Her bolgeyi dogru formda calisman icin secilmis gorsel ve video
-            arsivi.
-          </p>
+          <p>Her bolgeyi dogru formda calisman icin secilmis gorsel ve video arsivi.</p>
         </div>
 
         <div class="media-grid">
@@ -314,35 +312,83 @@
             </div>
             <div class="photo-gallery">
               <figure class="photo-item">
-                <img src="media/3837743.jpg" srcset="media/3837743.webp" alt="Bench press hareketi" loading="lazy" decoding="async" />
+                <img
+                  src="media/3837743.jpg"
+                  srcset="media/3837743.webp"
+                  alt="Bench press hareketi"
+                  loading="lazy"
+                  decoding="async"
+                />
                 <figcaption>Bench Press | Gogus - Triceps</figcaption>
               </figure>
               <figure class="photo-item">
-                <img src="media/2261476.jpg" srcset="media/2261476.webp" alt="Incline dumbbell press hareketi" loading="lazy" decoding="async" />
+                <img
+                  src="media/2261476.jpg"
+                  srcset="media/2261476.webp"
+                  alt="Incline dumbbell press hareketi"
+                  loading="lazy"
+                  decoding="async"
+                />
                 <figcaption>Incline Dumbbell Press | Ust Gogus</figcaption>
               </figure>
               <figure class="photo-item">
-                <img src="media/3490363.jpg" srcset="media/3490363.webp" alt="Pull up hareketi" loading="lazy" decoding="async" />
+                <img
+                  src="media/3490363.jpg"
+                  srcset="media/3490363.webp"
+                  alt="Pull up hareketi"
+                  loading="lazy"
+                  decoding="async"
+                />
                 <figcaption>Pull-up | Sirt - Biceps</figcaption>
               </figure>
               <figure class="photo-item">
-                <img src="media/2261477.jpg" srcset="media/2261477.webp" alt="Deadlift hazirlik pozisyonu" loading="lazy" decoding="async" />
+                <img
+                  src="media/2261477.jpg"
+                  srcset="media/2261477.webp"
+                  alt="Deadlift hazirlik pozisyonu"
+                  loading="lazy"
+                  decoding="async"
+                />
                 <figcaption>Deadlift Setup | Posterior Chain</figcaption>
               </figure>
               <figure class="photo-item">
-                <img src="media/2261485.jpg" srcset="media/2261485.webp" alt="Overhead barbell hareketi" loading="lazy" decoding="async" />
+                <img
+                  src="media/2261485.jpg"
+                  srcset="media/2261485.webp"
+                  alt="Overhead barbell hareketi"
+                  loading="lazy"
+                  decoding="async"
+                />
                 <figcaption>Overhead Lift | Omuz - Core</figcaption>
               </figure>
               <figure class="photo-item">
-                <img src="media/4720555.jpg" srcset="media/4720555.webp" alt="Squat hareketi" loading="lazy" decoding="async" />
+                <img
+                  src="media/4720555.jpg"
+                  srcset="media/4720555.webp"
+                  alt="Squat hareketi"
+                  loading="lazy"
+                  decoding="async"
+                />
                 <figcaption>Squat Pattern | Bacak - Kalca</figcaption>
               </figure>
               <figure class="photo-item">
-                <img src="media/1431282.jpg" srcset="media/1431282.webp" alt="Barbell curl hareketi" loading="lazy" decoding="async" />
+                <img
+                  src="media/1431282.jpg"
+                  srcset="media/1431282.webp"
+                  alt="Barbell curl hareketi"
+                  loading="lazy"
+                  decoding="async"
+                />
                 <figcaption>Barbell Curl | Biceps</figcaption>
               </figure>
               <figure class="photo-item">
-                <img src="media/1552242.jpg" srcset="media/1552242.webp" alt="Battle rope kondisyon calismasi" loading="lazy" decoding="async" />
+                <img
+                  src="media/1552242.jpg"
+                  srcset="media/1552242.webp"
+                  alt="Battle rope kondisyon calismasi"
+                  loading="lazy"
+                  decoding="async"
+                />
                 <figcaption>Battle Rope | Kondisyon - Core</figcaption>
               </figure>
             </div>
@@ -351,9 +397,7 @@
           <article class="media-card reveal">
             <div class="media-card-head">
               <h3>Teknik Video Onerileri</h3>
-              <p>
-                Hareketleri adim adim izleyip kendi formunu gelistirebilirsin.
-              </p>
+              <p>Hareketleri adim adim izleyip kendi formunu gelistirebilirsin.</p>
             </div>
             <div class="video-grid">
               <article class="video-item">
@@ -362,13 +406,27 @@
                     loading="lazy"
                     src="https://www.youtube.com/embed?listType=search&list=bench+press+proper+form"
                     title="Bench Press Teknik Video"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allow="
+                      accelerometer;
+                      autoplay;
+                      clipboard-write;
+                      encrypted-media;
+                      gyroscope;
+                      picture-in-picture;
+                      web-share;
+                    "
                     referrerpolicy="strict-origin-when-cross-origin"
                     allowfullscreen
                   ></iframe>
                 </div>
                 <h4>Bench Press Teknik Video</h4>
-                <a class="video-link-btn" href="https://www.youtube.com/results?search_query=bench+press+proper+form" target="_blank" rel="noopener noreferrer">YouTube'da Ac</a>
+                <a
+                  class="video-link-btn"
+                  href="https://www.youtube.com/results?search_query=bench+press+proper+form"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >YouTube'da Ac</a
+                >
               </article>
               <article class="video-item">
                 <div class="video-frame-wrap">
@@ -376,13 +434,27 @@
                     loading="lazy"
                     src="https://www.youtube.com/embed?listType=search&list=pull+up+form+tutorial"
                     title="Pull-up Teknik Video"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allow="
+                      accelerometer;
+                      autoplay;
+                      clipboard-write;
+                      encrypted-media;
+                      gyroscope;
+                      picture-in-picture;
+                      web-share;
+                    "
                     referrerpolicy="strict-origin-when-cross-origin"
                     allowfullscreen
                   ></iframe>
                 </div>
                 <h4>Pull-up Teknik Video</h4>
-                <a class="video-link-btn" href="https://www.youtube.com/results?search_query=pull+up+form+tutorial" target="_blank" rel="noopener noreferrer">YouTube'da Ac</a>
+                <a
+                  class="video-link-btn"
+                  href="https://www.youtube.com/results?search_query=pull+up+form+tutorial"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >YouTube'da Ac</a
+                >
               </article>
               <article class="video-item">
                 <div class="video-frame-wrap">
@@ -390,13 +462,27 @@
                     loading="lazy"
                     src="https://www.youtube.com/embed?listType=search&list=overhead+press+tutorial"
                     title="Overhead Press Teknik Video"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allow="
+                      accelerometer;
+                      autoplay;
+                      clipboard-write;
+                      encrypted-media;
+                      gyroscope;
+                      picture-in-picture;
+                      web-share;
+                    "
                     referrerpolicy="strict-origin-when-cross-origin"
                     allowfullscreen
                   ></iframe>
                 </div>
                 <h4>Overhead Press Teknik Video</h4>
-                <a class="video-link-btn" href="https://www.youtube.com/results?search_query=overhead+press+tutorial" target="_blank" rel="noopener noreferrer">YouTube'da Ac</a>
+                <a
+                  class="video-link-btn"
+                  href="https://www.youtube.com/results?search_query=overhead+press+tutorial"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >YouTube'da Ac</a
+                >
               </article>
               <article class="video-item">
                 <div class="video-frame-wrap">
@@ -404,13 +490,27 @@
                     loading="lazy"
                     src="https://www.youtube.com/embed?listType=search&list=squat+technique+tutorial"
                     title="Squat Teknik Video"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allow="
+                      accelerometer;
+                      autoplay;
+                      clipboard-write;
+                      encrypted-media;
+                      gyroscope;
+                      picture-in-picture;
+                      web-share;
+                    "
                     referrerpolicy="strict-origin-when-cross-origin"
                     allowfullscreen
                   ></iframe>
                 </div>
                 <h4>Squat Teknik Video</h4>
-                <a class="video-link-btn" href="https://www.youtube.com/results?search_query=squat+technique+tutorial" target="_blank" rel="noopener noreferrer">YouTube'da Ac</a>
+                <a
+                  class="video-link-btn"
+                  href="https://www.youtube.com/results?search_query=squat+technique+tutorial"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >YouTube'da Ac</a
+                >
               </article>
               <article class="video-item">
                 <div class="video-frame-wrap">
@@ -418,13 +518,27 @@
                     loading="lazy"
                     src="https://www.youtube.com/embed?listType=search&list=romanian+deadlift+form"
                     title="Romanian Deadlift Teknik Video"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allow="
+                      accelerometer;
+                      autoplay;
+                      clipboard-write;
+                      encrypted-media;
+                      gyroscope;
+                      picture-in-picture;
+                      web-share;
+                    "
                     referrerpolicy="strict-origin-when-cross-origin"
                     allowfullscreen
                   ></iframe>
                 </div>
                 <h4>Romanian Deadlift Teknik Video</h4>
-                <a class="video-link-btn" href="https://www.youtube.com/results?search_query=romanian+deadlift+form" target="_blank" rel="noopener noreferrer">YouTube'da Ac</a>
+                <a
+                  class="video-link-btn"
+                  href="https://www.youtube.com/results?search_query=romanian+deadlift+form"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >YouTube'da Ac</a
+                >
               </article>
               <article class="video-item">
                 <div class="video-frame-wrap">
@@ -432,22 +546,66 @@
                     loading="lazy"
                     src="https://www.youtube.com/embed?listType=search&list=plank+core+technique"
                     title="Core Teknik Video"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allow="
+                      accelerometer;
+                      autoplay;
+                      clipboard-write;
+                      encrypted-media;
+                      gyroscope;
+                      picture-in-picture;
+                      web-share;
+                    "
                     referrerpolicy="strict-origin-when-cross-origin"
                     allowfullscreen
                   ></iframe>
                 </div>
                 <h4>Core Teknik Video</h4>
-                <a class="video-link-btn" href="https://www.youtube.com/results?search_query=plank+core+technique" target="_blank" rel="noopener noreferrer">YouTube'da Ac</a>
+                <a
+                  class="video-link-btn"
+                  href="https://www.youtube.com/results?search_query=plank+core+technique"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >YouTube'da Ac</a
+                >
               </article>
             </div>
             <div class="video-list-links">
-              <a href="https://www.youtube.com/results?search_query=bench+press+proper+form" target="_blank" rel="noopener noreferrer">Bench Press Form</a>
-              <a href="https://www.youtube.com/results?search_query=pull+up+form+tutorial" target="_blank" rel="noopener noreferrer">Pull-up Form</a>
-              <a href="https://www.youtube.com/results?search_query=overhead+press+tutorial" target="_blank" rel="noopener noreferrer">Overhead Press Form</a>
-              <a href="https://www.youtube.com/results?search_query=squat+technique+tutorial" target="_blank" rel="noopener noreferrer">Squat Form</a>
-              <a href="https://www.youtube.com/results?search_query=romanian+deadlift+form" target="_blank" rel="noopener noreferrer">Romanian Deadlift Form</a>
-              <a href="https://www.youtube.com/results?search_query=plank+core+technique" target="_blank" rel="noopener noreferrer">Plank Form</a>
+              <a
+                href="https://www.youtube.com/results?search_query=bench+press+proper+form"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Bench Press Form</a
+              >
+              <a
+                href="https://www.youtube.com/results?search_query=pull+up+form+tutorial"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Pull-up Form</a
+              >
+              <a
+                href="https://www.youtube.com/results?search_query=overhead+press+tutorial"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Overhead Press Form</a
+              >
+              <a
+                href="https://www.youtube.com/results?search_query=squat+technique+tutorial"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Squat Form</a
+              >
+              <a
+                href="https://www.youtube.com/results?search_query=romanian+deadlift+form"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Romanian Deadlift Form</a
+              >
+              <a
+                href="https://www.youtube.com/results?search_query=plank+core+technique"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Plank Form</a
+              >
             </div>
           </article>
         </div>
@@ -457,9 +615,7 @@
         <div class="section-head reveal">
           <p class="eyebrow">SISTEMLI ILERLEME</p>
           <h2>Hazir Programlar</h2>
-          <p>
-            Seviyene ve hedefe gore direkt uygulanabilir haftalik planlar.
-          </p>
+          <p>Seviyene ve hedefe gore direkt uygulanabilir haftalik planlar.</p>
         </div>
 
         <div id="programGrid" class="program-grid">
@@ -467,8 +623,7 @@
             <p class="program-tag">Baslangic</p>
             <h3>Alpha 3 Gun</h3>
             <p class="program-desc">
-              Spora yeni baslayanlar icin full body temelli, surdurulebilir
-              plan.
+              Spora yeni baslayanlar icin full body temelli, surdurulebilir plan.
             </p>
             <ul>
               <li>Pazartesi: Full Body A</li>
@@ -479,8 +634,8 @@
             <button class="toggle-detail">Detayi Gor</button>
             <div class="program-detail">
               <p>
-                Her hafta ana hareketlerde toplam 2.5 kg artir. 4. haftada
-                agirliklari %15 dusurerek deload yap.
+                Her hafta ana hareketlerde toplam 2.5 kg artir. 4. haftada agirliklari %15 dusurerek
+                deload yap.
               </p>
             </div>
           </article>
@@ -500,8 +655,8 @@
             <button class="toggle-detail">Detayi Gor</button>
             <div class="program-detail">
               <p>
-                Ana liftlerde RPE 8-9, izolasyonlarda kisa dinlenme (45-60 sn).
-                Her 5. hafta aktif toparlanma ekle.
+                Ana liftlerde RPE 8-9, izolasyonlarda kisa dinlenme (45-60 sn). Her 5. hafta aktif
+                toparlanma ekle.
               </p>
             </div>
           </article>
@@ -522,8 +677,8 @@
             <button class="toggle-detail">Detayi Gor</button>
             <div class="program-detail">
               <p>
-                Gunluk 8-10 bin adim hedefle. Haftalik agirlik takibi yap, dusus
-                durursa kardiyo suresini 10 dakika artir.
+                Gunluk 8-10 bin adim hedefle. Haftalik agirlik takibi yap, dusus durursa kardiyo
+                suresini 10 dakika artir.
               </p>
             </div>
           </article>
@@ -531,9 +686,7 @@
           <article class="program-card reveal" data-program="hybrid">
             <p class="program-tag">Ileri Seviye</p>
             <h3>Hybrid 6 Gun</h3>
-            <p class="program-desc">
-              Guc, hiz ve kondisyonu birlikte gelistiren performans plani.
-            </p>
+            <p class="program-desc">Guc, hiz ve kondisyonu birlikte gelistiren performans plani.</p>
             <ul>
               <li>Pzt: Strength Lower</li>
               <li>Sali: Strength Upper</li>
@@ -545,8 +698,8 @@
             <button class="toggle-detail">Detayi Gor</button>
             <div class="program-detail">
               <p>
-                Uyku 7.5 saat altina dusuyorsa toparlanma gunu ekle. 3 haftalik
-                yuklenme + 1 hafta hafifletme dongusu uygula.
+                Uyku 7.5 saat altina dusuyorsa toparlanma gunu ekle. 3 haftalik yuklenme + 1 hafta
+                hafifletme dongusu uygula.
               </p>
             </div>
           </article>
@@ -558,8 +711,8 @@
           <p class="eyebrow">ADMIN PANELI</p>
           <h2>Program Ekle, Duzenle, Yonet</h2>
           <p>
-            Bu panelde yeni hazir programlar ekleyebilir ve yayinlanan ozel
-            programlarini yonetebilirsin.
+            Bu panelde yeni hazir programlar ekleyebilir ve yayinlanan ozel programlarini
+            yonetebilirsin.
           </p>
         </div>
         <p id="adminAccessInfo" class="admin-access-info">
@@ -569,8 +722,13 @@
           <article class="admin-card">
             <h3>Yeni Program Ekle</h3>
             <div class="admin-form">
-              <label>Program Adi <input id="adminProgramTitleInput" type="text" placeholder="Pro X 5 Gun" /></label>
-              <label>Etiket <input id="adminProgramTagInput" type="text" placeholder="Performans" /></label>
+              <label
+                >Program Adi
+                <input id="adminProgramTitleInput" type="text" placeholder="Pro X 5 Gun"
+              /></label>
+              <label
+                >Etiket <input id="adminProgramTagInput" type="text" placeholder="Performans"
+              /></label>
               <label>
                 Hedef
                 <select id="adminProgramGoalInput">
@@ -580,10 +738,33 @@
                   <option value="atletik">Atletik performans</option>
                 </select>
               </label>
-              <label>Aciklama <textarea id="adminProgramDescInput" rows="3" placeholder="Programin kisa aciklamasi"></textarea></label>
-              <label>Gunler (her satira bir gun) <textarea id="adminProgramDaysInput" rows="6" placeholder="Pazartesi: Upper&#10;Sali: Lower"></textarea></label>
-              <label>Detay Notu <textarea id="adminProgramDetailInput" rows="4" placeholder="Ilerleme ve toparlanma notlari"></textarea></label>
-              <button id="adminAddProgramBtn" class="btn btn-primary" type="button">Programi Yayinla</button>
+              <label
+                >Aciklama
+                <textarea
+                  id="adminProgramDescInput"
+                  rows="3"
+                  placeholder="Programin kisa aciklamasi"
+                ></textarea>
+              </label>
+              <label
+                >Gunler (her satira bir gun)
+                <textarea
+                  id="adminProgramDaysInput"
+                  rows="6"
+                  placeholder="Pazartesi: Upper&#10;Sali: Lower"
+                ></textarea>
+              </label>
+              <label
+                >Detay Notu
+                <textarea
+                  id="adminProgramDetailInput"
+                  rows="4"
+                  placeholder="Ilerleme ve toparlanma notlari"
+                ></textarea>
+              </label>
+              <button id="adminAddProgramBtn" class="btn btn-primary" type="button">
+                Programi Yayinla
+              </button>
             </div>
           </article>
           <article class="admin-card">
@@ -609,9 +790,7 @@
             <option value="atletik">Atletik performans</option>
           </select>
           <button id="recommendBtn" class="btn btn-primary">Program Oner</button>
-          <p id="recommendation" class="recommendation">
-            Tavsiye almak icin butona bas.
-          </p>
+          <p id="recommendation" class="recommendation">Tavsiye almak icin butona bas.</p>
         </div>
       </section>
 
@@ -619,10 +798,7 @@
         <div class="section-head">
           <p class="eyebrow">AKILLI ARACLAR</p>
           <h2>Fitness Hesaplayici Paketi</h2>
-          <p>
-            Kalori-makro, 1RM, su ihtiyaci ve veri yonetimi araclarini tek
-            panelden kullan.
-          </p>
+          <p>Kalori-makro, 1RM, su ihtiyaci ve veri yonetimi araclarini tek panelden kullan.</p>
         </div>
 
         <div class="calc-grid">
@@ -637,8 +813,12 @@
                   <option value="female">Kadin</option>
                 </select>
               </label>
-              <label>Kilo (kg) <input id="weightInput" type="number" min="35" max="220" value="78" /></label>
-              <label>Boy (cm) <input id="heightInput" type="number" min="140" max="220" value="178" /></label>
+              <label
+                >Kilo (kg) <input id="weightInput" type="number" min="35" max="220" value="78"
+              /></label>
+              <label
+                >Boy (cm) <input id="heightInput" type="number" min="140" max="220" value="178"
+              /></label>
               <label>
                 Aktivite
                 <select id="activityInput">
@@ -666,8 +846,13 @@
           <article class="calc-card">
             <h3>1RM & Yuzde Tablosu</h3>
             <div class="calc-form">
-              <label>Kaldirilan Agirlik (kg) <input id="rmWeightInput" type="number" min="1" max="500" value="80" /></label>
-              <label>Tekrar Sayisi <input id="rmRepsInput" type="number" min="1" max="15" value="6" /></label>
+              <label
+                >Kaldirilan Agirlik (kg)
+                <input id="rmWeightInput" type="number" min="1" max="500" value="80"
+              /></label>
+              <label
+                >Tekrar Sayisi <input id="rmRepsInput" type="number" min="1" max="15" value="6"
+              /></label>
               <button id="calc1rmBtn" class="btn btn-primary" type="button">1RM Hesapla</button>
               <p id="rmOutput" class="calc-output">1RM sonucu burada gorunur.</p>
             </div>
@@ -687,9 +872,16 @@
           <article class="calc-card">
             <h3>Su Ihtiyaci Hesaplayici</h3>
             <div class="calc-form">
-              <label>Kilo (kg) <input id="waterWeightInput" type="number" min="35" max="220" value="78" /></label>
-              <label>Antrenman Suresi (dk) <input id="waterTrainingInput" type="number" min="0" max="240" value="60" /></label>
-              <button id="calcWaterBtn" class="btn btn-primary" type="button">Su Ihtiyacini Hesapla</button>
+              <label
+                >Kilo (kg) <input id="waterWeightInput" type="number" min="35" max="220" value="78"
+              /></label>
+              <label
+                >Antrenman Suresi (dk)
+                <input id="waterTrainingInput" type="number" min="0" max="240" value="60"
+              /></label>
+              <button id="calcWaterBtn" class="btn btn-primary" type="button">
+                Su Ihtiyacini Hesapla
+              </button>
               <p id="waterOutput" class="calc-output">Gunluk su ihtiyaci burada gorunur.</p>
             </div>
           </article>
@@ -697,16 +889,22 @@
           <article class="calc-card">
             <h3>Veri ve Cikis Araclari</h3>
             <div class="tools-stack">
-              <button id="exportDataBtn" class="btn btn-ghost" type="button">Tum Veriyi JSON Olarak Disa Aktar</button>
+              <button id="exportDataBtn" class="btn btn-ghost" type="button">
+                Tum Veriyi JSON Olarak Disa Aktar
+              </button>
               <label class="import-label">
                 Veriyi JSON Olarak Iceri Al
                 <input id="importDataInput" type="file" accept=".json,application/json" />
               </label>
-              <button id="printPlanBtn" class="btn btn-ghost" type="button">Program Ozetini Yazdir</button>
-              <button id="installAppBtn" class="btn btn-primary hidden" type="button">Uygulama Olarak Yukle</button>
+              <button id="printPlanBtn" class="btn btn-ghost" type="button">
+                Program Ozetini Yazdir
+              </button>
+              <button id="installAppBtn" class="btn btn-primary hidden" type="button">
+                Uygulama Olarak Yukle
+              </button>
               <p class="calc-note">
-                Not: Tum takip verileri cihazinda saklanir. Disa aktarilan dosyayi
-                yedek olarak saklayabilirsin.
+                Not: Tum takip verileri cihazinda saklanir. Disa aktarilan dosyayi yedek olarak
+                saklayabilirsin.
               </p>
             </div>
           </article>
@@ -717,14 +915,15 @@
         <div class="section-head">
           <p class="eyebrow">EGZERSIZ ARSIVI</p>
           <h2>Aranabilir Egzersiz Kutuphanesi</h2>
-          <p>
-            Hedef kasa, ekipmana ve seviyeye gore filtreleyip dogru hareketi
-            aninda bul.
-          </p>
+          <p>Hedef kasa, ekipmana ve seviyeye gore filtreleyip dogru hareketi aninda bul.</p>
         </div>
 
         <div class="library-tools">
-          <input id="exerciseSearch" type="search" placeholder="Ornek: row, squat, lateral raise..." />
+          <input
+            id="exerciseSearch"
+            type="search"
+            placeholder="Ornek: row, squat, lateral raise..."
+          />
           <select id="exerciseMuscleFilter">
             <option value="all">Tum Kas Gruplari</option>
             <option value="gogus">Gogus</option>
@@ -754,8 +953,7 @@
           <p class="eyebrow">BESLENME PAKETLERI</p>
           <h2>Hedefe Gore Hazir Beslenme Sablonlari</h2>
           <p>
-            Kas kazanimi, yag yakimi veya dengeli performans icin optimize
-            edilmis gunluk planlar.
+            Kas kazanimi, yag yakimi veya dengeli performans icin optimize edilmis gunluk planlar.
           </p>
         </div>
 
@@ -770,7 +968,9 @@
               <li>Antrenman Sonrasi: Whey + pirinc patlagi</li>
               <li>Aksam: Kirmizi et + patates + sebze</li>
             </ul>
-            <button class="apply-meal-plan btn btn-ghost" data-meal-plan="bulk" type="button">Bu Plani Sec</button>
+            <button class="apply-meal-plan btn btn-ghost" data-meal-plan="bulk" type="button">
+              Bu Plani Sec
+            </button>
           </article>
 
           <article class="nutrition-card">
@@ -783,7 +983,9 @@
               <li>Ara: Lor + salatalik</li>
               <li>Aksam: Hindi + kinoali salata</li>
             </ul>
-            <button class="apply-meal-plan btn btn-ghost" data-meal-plan="cut" type="button">Bu Plani Sec</button>
+            <button class="apply-meal-plan btn btn-ghost" data-meal-plan="cut" type="button">
+              Bu Plani Sec
+            </button>
           </article>
 
           <article class="nutrition-card">
@@ -796,7 +998,13 @@
               <li>Antrenman Sonrasi: Muz + yogurt</li>
               <li>Aksam: Somon + bulgur + yesillik</li>
             </ul>
-            <button class="apply-meal-plan btn btn-ghost" data-meal-plan="performance" type="button">Bu Plani Sec</button>
+            <button
+              class="apply-meal-plan btn btn-ghost"
+              data-meal-plan="performance"
+              type="button"
+            >
+              Bu Plani Sec
+            </button>
           </article>
         </div>
 
@@ -808,8 +1016,7 @@
           <p class="eyebrow">SUREKLILIK SISTEMI</p>
           <h2>Haftalik Takip Paneli</h2>
           <p>
-            Antrenmanlarini isaretle, ilerlemeni sakla ve dinlenme suresini
-            profesyonelce yonet.
+            Antrenmanlarini isaretle, ilerlemeni sakla ve dinlenme suresini profesyonelce yonet.
           </p>
         </div>
 
@@ -817,13 +1024,34 @@
           <article class="tracker-card">
             <h3>Haftalik Checkpoint</h3>
             <div class="tracker-list">
-              <label><input class="tracker-check" type="checkbox" data-id="pzt_push" /> Pzt | Push + Core</label>
-              <label><input class="tracker-check" type="checkbox" data-id="sali_pull" /> Sali | Pull + Grip</label>
-              <label><input class="tracker-check" type="checkbox" data-id="cars_leg" /> Cars | Leg Day</label>
-              <label><input class="tracker-check" type="checkbox" data-id="pers_active" /> Pers | Active Recovery</label>
-              <label><input class="tracker-check" type="checkbox" data-id="cuma_upper" /> Cuma | Upper Volume</label>
-              <label><input class="tracker-check" type="checkbox" data-id="cts_conditioning" /> Cts | Conditioning</label>
-              <label><input class="tracker-check" type="checkbox" data-id="pazar_mobility" /> Paz | Mobility + Stretch</label>
+              <label
+                ><input class="tracker-check" type="checkbox" data-id="pzt_push" /> Pzt | Push +
+                Core</label
+              >
+              <label
+                ><input class="tracker-check" type="checkbox" data-id="sali_pull" /> Sali | Pull +
+                Grip</label
+              >
+              <label
+                ><input class="tracker-check" type="checkbox" data-id="cars_leg" /> Cars | Leg
+                Day</label
+              >
+              <label
+                ><input class="tracker-check" type="checkbox" data-id="pers_active" /> Pers | Active
+                Recovery</label
+              >
+              <label
+                ><input class="tracker-check" type="checkbox" data-id="cuma_upper" /> Cuma | Upper
+                Volume</label
+              >
+              <label
+                ><input class="tracker-check" type="checkbox" data-id="cts_conditioning" /> Cts |
+                Conditioning</label
+              >
+              <label
+                ><input class="tracker-check" type="checkbox" data-id="pazar_mobility" /> Paz |
+                Mobility + Stretch</label
+              >
             </div>
             <div class="tracker-progress">
               <div class="tracker-progress-bar">
@@ -831,16 +1059,12 @@
               </div>
               <p id="trackerSummary">0 / 7 tamamlandi.</p>
             </div>
-            <button id="trackerReset" class="btn btn-ghost" type="button">
-              Haftayi Sifirla
-            </button>
+            <button id="trackerReset" class="btn btn-ghost" type="button">Haftayi Sifirla</button>
           </article>
 
           <article class="tracker-card">
             <h3>Dinlenme Zamanlayici</h3>
-            <p class="tracker-card-text">
-              Agir setlerde kontrollu dinlenme icin sure ayarla.
-            </p>
+            <p class="tracker-card-text">Agir setlerde kontrollu dinlenme icin sure ayarla.</p>
             <div class="timer-box">
               <label for="restSeconds">Sure (sn)</label>
               <input id="restSeconds" type="number" min="15" max="300" step="5" value="90" />
@@ -860,8 +1084,8 @@
           <p class="eyebrow">HAFTALIK ANALIZ</p>
           <h2>Ilerleme Grafik Paneli</h2>
           <p>
-            Haftalik agirlik, antrenman suresi ve adim verilerini girerek
-            otomatik grafikten durumunu takip et.
+            Haftalik agirlik, antrenman suresi ve adim verilerini girerek otomatik grafikten
+            durumunu takip et.
           </p>
         </div>
         <div class="analytics-grid">
@@ -880,14 +1104,47 @@
                   <option value="pazar">Pazar</option>
                 </select>
               </label>
-              <label>Kilo (kg) <input id="metricWeightInput" type="number" min="30" max="250" step="0.1" placeholder="78.5" /></label>
-              <label>Antrenman Suresi (dk) <input id="metricMinutesInput" type="number" min="0" max="300" step="1" placeholder="60" /></label>
-              <label>Adim <input id="metricStepsInput" type="number" min="0" max="50000" step="100" placeholder="8500" /></label>
+              <label
+                >Kilo (kg)
+                <input
+                  id="metricWeightInput"
+                  type="number"
+                  min="30"
+                  max="250"
+                  step="0.1"
+                  placeholder="78.5"
+              /></label>
+              <label
+                >Antrenman Suresi (dk)
+                <input
+                  id="metricMinutesInput"
+                  type="number"
+                  min="0"
+                  max="300"
+                  step="1"
+                  placeholder="60"
+              /></label>
+              <label
+                >Adim
+                <input
+                  id="metricStepsInput"
+                  type="number"
+                  min="0"
+                  max="50000"
+                  step="100"
+                  placeholder="8500"
+              /></label>
               <div class="analytics-actions">
-                <button id="saveMetricBtn" class="btn btn-primary" type="button">Kaydet ve Grafik Guncelle</button>
-                <button id="resetMetricWeekBtn" class="btn btn-ghost" type="button">Haftalik Veriyi Sifirla</button>
+                <button id="saveMetricBtn" class="btn btn-primary" type="button">
+                  Kaydet ve Grafik Guncelle
+                </button>
+                <button id="resetMetricWeekBtn" class="btn btn-ghost" type="button">
+                  Haftalik Veriyi Sifirla
+                </button>
               </div>
-              <p id="weeklySummaryOutput" class="analytics-summary">Haftalik ozet burada gorunecek.</p>
+              <p id="weeklySummaryOutput" class="analytics-summary">
+                Haftalik ozet burada gorunecek.
+              </p>
             </div>
           </article>
           <article class="analytics-card">
@@ -904,8 +1161,8 @@
           <p class="eyebrow">SIK SORULANLAR</p>
           <h2>Hizli Cevap Merkezi</h2>
           <p>
-            Program, toparlanma, beslenme ve ilerleme takibi ile ilgili kritik
-            sorularin kisa ve net cevaplari.
+            Program, toparlanma, beslenme ve ilerleme takibi ile ilgili kritik sorularin kisa ve net
+            cevaplari.
           </p>
         </div>
 
@@ -913,25 +1170,37 @@
           <article class="faq-item">
             <button class="faq-trigger" type="button">Haftada kac gun antrenman idealdir?</button>
             <div class="faq-content">
-              <p>Yeni baslayanlar icin 3-4, orta-ileri seviye icin 4-6 gun ideal araliktir. Toparlanma kalitesine gore ayarlama yap.</p>
+              <p>
+                Yeni baslayanlar icin 3-4, orta-ileri seviye icin 4-6 gun ideal araliktir.
+                Toparlanma kalitesine gore ayarlama yap.
+              </p>
             </div>
           </article>
           <article class="faq-item">
             <button class="faq-trigger" type="button">Kas kazanirken kardiyo yapmali miyim?</button>
             <div class="faq-content">
-              <p>Evet. Haftada 2-3 gun dusuk-orta tempo kardiyo, toparlanmayi ve kalp-damar performansini destekler.</p>
+              <p>
+                Evet. Haftada 2-3 gun dusuk-orta tempo kardiyo, toparlanmayi ve kalp-damar
+                performansini destekler.
+              </p>
             </div>
           </article>
           <article class="faq-item">
             <button class="faq-trigger" type="button">Agirlik artmiyorsa ne yapmaliyim?</button>
             <div class="faq-content">
-              <p>Uyku, kalori alimi ve teknik formu kontrol et. 1-2 hafta boyunca toplam hacmi veya kalori miktarini kademeli artir.</p>
+              <p>
+                Uyku, kalori alimi ve teknik formu kontrol et. 1-2 hafta boyunca toplam hacmi veya
+                kalori miktarini kademeli artir.
+              </p>
             </div>
           </article>
           <article class="faq-item">
             <button class="faq-trigger" type="button">Program degistirme sikligi ne olmali?</button>
             <div class="faq-content">
-              <p>Ana sistemi 8-12 hafta koru. Egzersiz varyasyonlarini performansa gore mikro degistir, temel liftleri sabit tut.</p>
+              <p>
+                Ana sistemi 8-12 hafta koru. Egzersiz varyasyonlarini performansa gore mikro
+                degistir, temel liftleri sabit tut.
+              </p>
             </div>
           </article>
         </div>
@@ -941,8 +1210,7 @@
         <h2>Kurucu</h2>
         <p class="founder-name">Berke Kaan Dinler</p>
         <p>
-          "Ultimate Fitness yaklasimi: net plan, olculebilir ilerleme ve
-          surdurulebilir disiplin."
+          "Ultimate Fitness yaklasimi: net plan, olculebilir ilerleme ve surdurulebilir disiplin."
         </p>
       </section>
 
@@ -951,8 +1219,8 @@
           <p class="eyebrow">OZEL DOMAIN</p>
           <h2>fitness.berkekaandinler.com Kurulum Rehberi</h2>
           <p>
-            Vercel panelinden domain ekleyip DNS kayitlarini tamamladiginda
-            site bu adresten de calisir.
+            Vercel panelinden domain ekleyip DNS kayitlarini tamamladiginda site bu adresten de
+            calisir.
           </p>
         </div>
         <div class="domain-card">
@@ -984,4 +1252,3 @@
     <script src="script.js?v=7"></script>
   </body>
 </html>
-

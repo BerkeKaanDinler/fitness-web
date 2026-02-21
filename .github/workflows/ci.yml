@@ -27,11 +27,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+          cache: "npm"
 
-      - name: JavaScript Syntax Check
-        run: |
-          node --check script.js
-          node --check sw.js
+      - name: Install Dependencies
+        run: npm ci
 
-      - name: Project Integrity and Secret Scan
-        run: node scripts/ci-checks.mjs
+      - name: Run Project Checks
+        run: npm run check

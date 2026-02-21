@@ -49,6 +49,10 @@ Kurucu: **Berke Kaan Dinler**
 |- icon.svg
 |- media/
 |- DOMAIN_SETUP.md
+|- package.json
+|- eslint.config.mjs
+|- .editorconfig
+|- .prettierrc.json
 |- scripts/
 |  `- ci-checks.mjs
 `- .github/
@@ -74,6 +78,14 @@ Tarayici:
 ```powershell
 cd "C:\Users\berke\Desktop\web site"
 npx vercel --prod
+```
+
+## Gelistirici Komutlari
+
+```powershell
+npm install
+npm run check
+npm run format
 ```
 
 ## Ozel Domain

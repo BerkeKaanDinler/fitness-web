@@ -123,7 +123,9 @@ function escapeHtml(value) {
 }
 
 function normalizeEmail(email) {
-  return String(email ?? "").trim().toLowerCase();
+  return String(email ?? "")
+    .trim()
+    .toLowerCase();
 }
 
 function hashPassword(rawPassword) {
@@ -381,9 +383,7 @@ function updateAuthPresentation() {
   const isAdmin = Boolean(user && user.role === "admin");
 
   if (authStatusText) {
-    authStatusText.textContent = user
-      ? "Oturum aktif."
-      : "Misafir modundasin.";
+    authStatusText.textContent = user ? "Oturum aktif." : "Misafir modundasin.";
   }
 
   if (authWelcomeText) {
@@ -441,9 +441,7 @@ function registerUser() {
   }
 
   const role =
-    authUsers.length === 0 ||
-    adminCode === adminInviteCode ||
-    founderAdminEmails.has(email)
+    authUsers.length === 0 || adminCode === adminInviteCode || founderAdminEmails.has(email)
       ? "admin"
       : "member";
 
@@ -480,8 +478,7 @@ function loginUser() {
   }
 
   const user = authUsers.find(
-    (candidate) =>
-      candidate.email === email && candidate.passwordHash === hashPassword(password)
+    (candidate) => candidate.email === email && candidate.passwordHash === hashPassword(password)
   );
 
   if (!user) {
@@ -785,7 +782,8 @@ function loadProfileState() {
   if (byId("activityInput")) byId("activityInput").value = String(profile.activity ?? 1.55);
   if (byId("goalInput")) byId("goalInput").value = profile.goal ?? "maintain";
   if (byId("waterWeightInput")) byId("waterWeightInput").value = String(profile.waterWeight ?? 78);
-  if (byId("waterTrainingInput")) byId("waterTrainingInput").value = String(profile.waterTraining ?? 60);
+  if (byId("waterTrainingInput"))
+    byId("waterTrainingInput").value = String(profile.waterTraining ?? 60);
   if (byId("rmWeightInput")) byId("rmWeightInput").value = String(profile.rmWeight ?? 80);
   if (byId("rmRepsInput")) byId("rmRepsInput").value = String(profile.rmReps ?? 6);
   if (goalSelect && profile.plannerGoal) goalSelect.value = profile.plannerGoal;
@@ -801,7 +799,12 @@ function calculateCaloriesAndMacros() {
   const calorieOutput = byId("calorieOutput");
   const macroOutput = byId("macroOutput");
 
-  if (!Number.isFinite(age) || !Number.isFinite(weight) || !Number.isFinite(height) || !Number.isFinite(activity)) {
+  if (
+    !Number.isFinite(age) ||
+    !Number.isFinite(weight) ||
+    !Number.isFinite(height) ||
+    !Number.isFinite(activity)
+  ) {
     if (calorieOutput) calorieOutput.textContent = "Lutfen tum alanlari gecerli degerle doldur.";
     if (macroOutput) macroOutput.textContent = "Makro hesaplamak icin once kalori hesapla.";
     return;
@@ -817,10 +820,7 @@ function calculateCaloriesAndMacros() {
   const fatMultiplier = goal === "cut" ? 0.8 : 0.9;
   const proteinGr = Math.round(weight * proteinMultiplier);
   const fatGr = Math.round(weight * fatMultiplier);
-  const carbsGr = Math.max(
-    0,
-    Math.round((targetCalories - proteinGr * 4 - fatGr * 9) / 4)
-  );
+  const carbsGr = Math.max(0, Math.round((targetCalories - proteinGr * 4 - fatGr * 9) / 4));
 
   if (calorieOutput) {
     calorieOutput.textContent = `Gunluk hedef kalori: ${Math.round(targetCalories)} kcal (bakim: ${Math.round(
@@ -2124,7 +2124,9 @@ if (backToTop) {
 
 updateScrollProgress();
 
-const sectionNavLinks = [...document.querySelectorAll('.topnav a[href^="#"], .mobile-dock a[href^="#"]')].filter((link) => {
+const sectionNavLinks = [
+  ...document.querySelectorAll('.topnav a[href^="#"], .mobile-dock a[href^="#"]'),
+].filter((link) => {
   const href = link.getAttribute("href");
   return Boolean(href && href.length > 1);
 });
@@ -2136,9 +2138,7 @@ function setActiveNavLink(hash) {
 }
 
 const sectionIds = [...new Set(sectionNavLinks.map((link) => link.getAttribute("href").slice(1)))];
-const sections = sectionIds
-  .map((id) => byId(id))
-  .filter((section) => Boolean(section));
+const sections = sectionIds.map((id) => byId(id)).filter((section) => Boolean(section));
 
 if (sections.length && "IntersectionObserver" in window) {
   const navObserver = new IntersectionObserver(
@@ -2172,13 +2172,7 @@ window.addEventListener("keydown", (event) => {
     activeTag === "TEXTAREA" ||
     activeTag === "SELECT";
 
-  if (
-    event.key === "/" &&
-    !typingInField &&
-    !event.ctrlKey &&
-    !event.metaKey &&
-    !event.altKey
-  ) {
+  if (event.key === "/" && !typingInField && !event.ctrlKey && !event.metaKey && !event.altKey) {
     event.preventDefault();
     if (exerciseSearch) {
       exerciseSearch.focus();
